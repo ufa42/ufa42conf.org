@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>C* -> Riak</title>
+
+    <meta name="description" content="Переезд с Cassandra на Riak">
+    <meta name="author" content="Lev Khomich">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/2.6.2/css/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.0/styles/zenburn.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/2.6.2/css/print/pdf.css" type="text/css" media="print">
+    <link rel="stylesheet" href="migration.css" id="theme">
+
+    <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+<div class="reveal">
+<div class="slides">
+
+<section>
+    <h2>C* -> Riak</h2>
+</section>
+
+<section>
+    <h2>Общее</h2>
+    <ul>
+        <li>eventual consistent</li>
+        <li>masterless</li>
+        <li>read repair</li>
+        <li>multi-datacenter</li>
+    </ul>
+</section>
+
+<section>
+    <h2>Причины перехода</h2>
+    <ul>
+        <li>сложное сопровождение</li>
+        <li>не всегда есть необходимость в схеме</li>
+        <li>экосистема</li>
+    </ul>
+</section>
+
+<section>
+    <h2>Первые разочарования</h2>
+</section>
+
+<section style="font-size: 80%">
+    <h2>Обёртка, ожидания</h2>
+<pre style="width: 85%"><code data-trim>
+def getValue(result: FetchValue.Response): Option[T] = {
+  val convertedValues = result.getValues().map { raw =>
+    reader.read(JsonParser(raw.getValue.toStringUtf8))
+  }
+  if (convertedValues.length <= 1)
+    convertedValues.headOption
+  else
+    Some(resolveConflicts(convertedValues))
+}
+</code></pre>
+</section>
+
+<section style="font-size: 60%">
+    <h2>YO DAWG, I HEARD YOU LIKE FLAT MAPS</h2>
+<pre style="width: 75%"><code style="font-size: 150%" data-trim>
+if (result.isNotFound)
+  None
+else {
+  def convert(obj: RiakObject): Option[T] =
+    Option(obj.getValue).map( v =>
+      reader.read(JsonParser(v.toStringUtf8))
+    )
+
+  val values = result.getValues()
+  if (values == null || values.isEmpty)
+    None
+  else {
+    val convertedValues = values.flatMap(Option(_).flatMap(convert)).toList
+    if (convertedValues.length <= 1)
+      convertedValues.headOption
+    else {
+      log.warn("resolving conflict between " + convertedValues)
+      Some(resolveConflicts(convertedValues))
+    }
+  }
+}
+</code></pre>
+    <h2>SO I MADE NULLABLE LISTS OF NULLABLE OPTIONAL VALUES WHICH CAN OPTIONALLY CONTAIN NULLS</h2>
+</section>
+
+<!--<section fullscreen-img="yo-dawg.jpg" fullscreen-size="contain">-->
+<!--</section>-->
+
+<section>
+    <h2>Другие особенности</h2>
+    <ul>
+        <li>запросы по диапазонам</li>
+        <li>проекции</li>
+        <li>drop table</li>
+        <li>асинхронность</li>
+        <li>производительность записи</li>
+    </ul>
+</section>
+
+<section>
+    <h2>Разрешение конфликтов</h2>
+
+    <p class="fragment">Cassandra - RWW</p>
+
+    <p class="fragment">Riak - Vector clocks</p>
+<pre style="width: 100%" class="fragment"><code data-trim>
+    def resolveConflicts(siblings: Iterable[T]): T
+</code></pre>
+<pre style="width: 100%" class="fragment"><code data-trim>
+    = siblings.sort(_.creationTime).last
+</code></pre>
+</section>
+
+<section>
+    <h2>DBO</h2>
+</section>
+
+<section style="font-size: 60%">
+    <h2>Riak</h2>
+<pre style="width: 65%"><code data-trim>
+
+object CredentialsDbo extends RiakEntityDbo[Nothing, Credentials] {
+  import me.selfish.common.db.FieldsNames.{Credentials => CF}
+
+  override def entityRawId(entity: Credentials): String =
+    id(entity.authAccountId, entity.authType)
+
+  private def id(authAccountId: String, authType: AuthType.Value): String =
+    authType.toString + '-' + authAccountId
+
+  override protected def secondaryIndexes(entity: Credentials) =
+    Map(CF.UserId -> Seq(entity.userId))
+
+  override protected def resolveConflicts(siblings: List[Credentials]): Credentials =
+    siblings.head
+
+  def findByAuth(authAccountId: String, authType: AuthType.Value)(implicit client: RiakClient): Option[Credentials] =
+    findByRawId(id(authAccountId, authType), quorum)
+
+  def findByAuthAccountIds(authAccountIds: List[String], authType: AuthType.Value)(implicit client: RiakClient, ec: ExecutionContext): Future[Seq[Credentials]] =
+    findByRawIds(authAccountIds.map(id(_, authType)), quorum = quorum)
+
+  def findByUserId(userId: UserUUID)(implicit client: RiakClient, ec: ExecutionContext): Future[Seq[Credentials]] =
+    findBySecondaryIndex(CF.UserId, userId, quorum = quorum)
+
+  def setPasswordHash(authAccountId: String, authType: AuthType.Value, hash: String)(implicit client: RiakClient): Unit =
+    updateByRawId(id(authAccountId, authType), fetchQuorum, storeQuorum)(_.copy(passwordHash = Some(hash)))
+
+}
+</code></pre>
+</section>
+
+<section style="font-size: 40%">
+<pre style="width: 65%"><code data-trim>
+object Credentials extends CassandraDbo {
+  import me.selfish.common.db.FieldsNames.{Credentials => CF}
+
+  lazy val Tablename = s"${NodeConfig.keyspace}.credentials"
+
+  import me.selfish.iapi.CassandraHelper.{cassandra => c}
+
+  ...
+
+  private[this] def fromRow(row: Row): Option[Credentials] = {
+    if(row == null)
+      None
+    else {
+      val authAccountId = row.getString(CF.AuthAccountId)
+      val authType = AuthType.withName(row.getString(CF.AuthType))
+      val userId = row.getString(CF.UserId)
+      val ph = row.getString(CF.PasswordHash)
+      val passwordHash = if(ph == null) None else Some(ph)
+      Some(Credentials(userId, authAccountId, passwordHash, authType))
+    }
+  }
+
+  def find(authAccountId: String, authType: AuthType.Value = AuthType.Selfish)
+      (implicit db: CSession): Option[Credentials] = {
+    fromRow(db.execute(find.bind(authAccountId, authType.toString)).one())
+  }
+
+  def findByAuthAccountIds(authAccountIds: List[String], authType: AuthType.Value)
+          (implicit db: CSession): List[Credentials] = {
+    import collection.JavaConversions._
+    db.execute(findByAuthAccoundIsTemplate
+      .bind(seqAsJavaList(authAccountIds.toSeq), authType.toString)).all().toList.flatMap(fromRow)
+  }
+
+  def create(cred: Credentials)(implicit db: CSession): Unit = {
+    db.execute(create.bind(cred.authAccountId, cred.authType.toString, cred.userId, cred.passwordHash.orNull))
+  }
+
+  def delete(authAccountId: String, authType: AuthType.Value)(implicit db: CSession): Unit = {
+    db.execute(delete.bind(authAccountId, authType.toString))
+  }
+
+  def setPasswordHash(authAccountId: String, authType: AuthType.Value, hash: Option[String])
+      (implicit db: CSession): Unit = {
+    db.execute(setPasswordHash.bind(hash.orNull, authAccountId, authType.toString))
+  }
+
+  def findByUserId(userId: UserUUID)(implicit db: CSession): List[Credentials] = {
+    import collection.JavaConversions._
+    db.execute(findByUserId.bind(userId)).all().toList.flatMap(fromRow)
+  }
+
+  def init()(implicit db: CSession) {
+    dropTable(Tablename)
+    db.execute(
+      s"""
+        |CREATE TABLE $Tablename (
+        |"authAccountId" text,
+        |"authType" text,
+        |"userId" text,
+        |"passwordHash" text,
+        |PRIMARY KEY ("authAccountId", "authType")
+        |);
+      """.stripMargin
+    )
+    db.execute(s"""CREATE INDEX ON $Tablename ("userId");""")
+  }
+}
+</code></pre>
+</section>
+
+<section>
+    <h2>Результаты</h2>
+    <ul>
+        <li>надёжность</li>
+        <li>производительность</li>
+        <li>гибкость (2i, no schema, rest api)</li>
+        <li>Riak Data Types</li>
+        <li>чтение при падении нод</li>
+    </ul>
+</section>
+
+<section>
+    <h2>Другие возможности</h2>
+    <ul>
+        <li>map-reduce</li>
+        <li>link-walking</li>
+        <li>pluggable persistence backends</li>
+        <li>search</li>
+        <li>CRDTs</li>
+    </ul>
+</section>
+
+<section fullscreen-img="one-does-not-simply.jpg" fullscreen-size="contain">
+</section>
+
+<section>
+    <h2>Спасибо!</h2>
+</section>
+
+<section>
+    <h2>Вопросы</h2>
+</section>
+
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/2.6.2/lib/js/head.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/2.6.2/js/reveal.min.js"></script>
+
+<script>
+
+    // Full list of configuration options available here:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+        controls: true,
+        progress: false,
+        history: true,
+        center: true,
+
+        theme: Reveal.getQueryHash().theme || 'migration', // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'fade', // default/cube/page/concave/zoom/linear/fade/none
+
+        transitionSpeed: 'fast',
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+            { src: 'https://cdnjs.cloudflare.com/ajax/libs/classlist/2014.01.31/classList.min.js', condition: function() { return !document.body.classList; } },
+            { src: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.0/highlight.min.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+            { src: 'fullscreen-img.js' }
+        ]
+    });
+
+</script>
+
+</body>
+</html>

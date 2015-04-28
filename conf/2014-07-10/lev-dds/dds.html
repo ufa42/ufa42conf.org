@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>Отладка распределённых систем</title>
+
+    <meta name="description" content="">
+    <meta name="author" content="Lev Khomich">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/2.6.2/css/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.0/styles/zenburn.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/2.6.2/css/print/pdf.css" type="text/css" media="print">
+    <link rel="stylesheet" href="dds.css" id="theme">
+    <link rel="stylesheet" href="fullscreen-img.css" id="theme">
+
+    <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+<div class="reveal">
+<div class="slides">
+
+<section>
+    <h2>Отладка распределённых систем</h2>
+</section>
+
+<section>
+    <h2>Cynefin</h2>
+    <img width="100%" src="cynefin.png">
+</section>
+
+<section>
+    <h2>Отладчик</h2>
+    <ul>
+        <li class="fragment">позволяет работать только с обособленным кодом </li>
+        <li class="fragment">может использоваться на уровне тестов с mock-объектами</li>
+        <li class="fragment">не подходит для production-систем</li>
+        <li class="fragment">не годится для функциональных ЯП</li>
+        <li class="fragment">очень медленные итерации</li>
+    </ul>
+</section>
+
+<section>
+    <h2>Логирование</h2>
+</section>
+
+<section>
+    <h2>File appender</h2>
+    <ul>
+        <li>grep, sort, unique, tail</li>
+        <li>нужно знать состав кластера</li>
+        <li>нужны права на каждой ноде</li>
+    </ul>
+</section>
+
+<section>
+    <h2>DB appender</h2>
+    <ul>
+        <li>возможности БД практически не используются</li>
+        <li>низкая производительность</li>
+        <li>неудобная кастомизация запросов</li>
+    </ul>
+</section>
+
+<section>
+    <img height="100%" src="found-it.jpg" />
+</section>
+
+<section>
+    <h2>Logstash + Kibana</h2>
+    <ul>
+        <li>решают большинство означенных проблем</li>
+        <li>не знают контекста (зависимости между сервисами)</li>
+        <li>не позволяют анализировать временные характеристики</li>
+        <li>ближе к мониторингу, нежели отладке</li>
+    </ul>
+</section>
+
+<section>
+    <h2>Трассировка</h2>
+    <ul>
+        <li>Dapper (<a href="http://twitter.github.io/zipkin/">Zipkin</a>)</li>
+        <li><a href="http://www.x-trace.net/wiki/doku.php">XTrace</a></li>
+    </ul>
+</section>
+
+<section>
+    <h2>Возможности</h2>
+    <ul>
+        <li>работа в гетерогенных системах</li>
+        <li>отслеживание иерархий вызовов</li>
+        <li>удобный поиск</li>
+        <li>пользовательские аннотации</li>
+        <li>интеграция со внешними сервисами (finagle, brave, js)</li>
+        <li>очень низкий performance overhead</li>
+    </ul>
+</section>
+
+<section>
+    <img width="100%" src="tracing.jpg" />
+</section>
+
+<section>
+    <h2>Zipkin</h2>
+    <img src="zipkin-flow.png" />
+</section>
+
+<section>
+    <h2>Структуры</h2>
+    <ul>
+        <li>trace</li>
+        <li>span</li>
+        <li>annotation</li>
+    </ul>
+</section>
+
+<section>
+    <img width="100%" src="zipkin-tree.png" />
+</section>
+
+<section>
+    <h2>Span</h2>
+    <ul>
+        <li>id</li>
+        <li>traceId</li>
+        <li>parentId</li>
+        <li>annotations (normal, binary)</li>
+    </ul>
+</section>
+
+<section>
+    <h2>Код</h2>
+<pre style="width: 80%"><code data-trim>
+trace.recordKeyValue(msg, "user.lang",
+  request.headers(`AcceptedLanguage`))
+trace.record(s"found $count user entries")
+log.warn(msg, "preview wasn't found, using placeholder")
+trace.record(someException)
+</code></pre>
+</section>
+
+<section>
+    <img width="100%" src="zipkin-instrumentation.png" />
+</section>
+
+<section>
+    <img width="100%" src="ball-autograph.jpg" />
+</section>
+
+<section fullscreen-img="zipkin-details.png">
+</section>
+
+<section>
+    <img width="100%" src="zipkin-deps.png" />
+</section>
+
+<section>
+    <h2>Context propagation</h2>
+    <ul>
+        <li>redis</li>
+        <li>memcache</li>
+        <li>cassandra</li>
+        <li>jdbc</li>
+        <li>js</li>
+    </ul>
+</section>
+
+<section fullscreen-img="zipkin-firebug.png">
+</section>
+
+<section>
+    <h2>Пример</h2>
+</section>
+
+<section fullscreen-img="inv-1.png">
+</section>
+
+<section fullscreen-img="inv-2.png">
+</section>
+
+<section fullscreen-img="inv-3.png">
+</section>
+
+<section fullscreen-img="inv-4.png">
+</section>
+
+<section>
+    <h2>Спасибо!</h2>
+</section>
+
+<section>
+    <h2>Вопросы</h2>
+</section>
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/2.6.2/lib/js/head.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/2.6.2/js/reveal.min.js"></script>
+
+<script>
+
+    // Full list of configuration options available here:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        theme: Reveal.getQueryHash().theme || 'dds', // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'fade', // default/cube/page/concave/zoom/linear/fade/none
+
+        transitionSpeed: 'fast',
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+            { src: 'https://cdnjs.cloudflare.com/ajax/libs/classlist/2014.01.31/classList.min.js', condition: function() { return !document.body.classList; } },
+            { src: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.0/highlight.min.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+            { src: 'fullscreen-img.js' },
+        ]
+    });
+
+</script>
+
+</body>
+</html>

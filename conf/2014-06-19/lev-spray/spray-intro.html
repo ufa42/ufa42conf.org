@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>Akka &amp; spray</title>
+
+    <meta name="description" content="HTTP слой со Spray и Akka">
+    <meta name="author" content="Lev Khomich">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/2.6.2/css/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.0/styles/zenburn.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/2.6.2/css/print/pdf.css" type="text/css" media="print">
+    <link rel="stylesheet" href="spray-intro.css" id="theme">
+
+    <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+<div class="reveal">
+<div class="slides">
+
+<section>
+    <img style="margin-bottom: 50px;" width="80%" src="spray-logo.svg" alt="spray"><br/>
+</section>
+
+<section>
+    <h2>Почему не что-то другое?</h2>
+    <p class="fragment">Например <a href="http://netty.io">Netty</a>?<br/>
+        (или <a href="http://en.wikipedia.org/wiki/Java_Servlet">Servlets</a>,
+        или <a href="https://www.djangoproject.com/">Django</a>,
+        или <a href="http://rubyonrails.org/">Rails</a>,
+        или <a href="http://undertow.io/">Undertow</a>, ...)</p>
+</section>
+
+<section>
+    <h2>Да, можно</h2>
+    <p class="fragment">но</p>
+    <pre class="fragment"><code data-trim>
+        request.GET, request.POST, request.REQUEST
+    </code></pre>
+    <pre class="fragment" style="width: 100%"><code data-trim>
+        method == 'GET'
+        response.headers["Access-Control-Expose-Headers"] =
+          "Content-Disposition"
+        response.headers["Access-Control-Max-Age"] = "600"
+        response.headers["Range"] = ???
+    </code></pre>
+    <pre class="fragment" style="width: 100%"><code data-trim>
+        streaming, websockets, socket.io, range-requests,
+        compression, validation, ...
+    </code></pre>
+    <pre class="fragment" style="width: 100%"><code data-trim>
+        простота кода, <a href="http://www.techempower.com/benchmarks/#section=data-r9&hw=peak&test=query">производительность</a>
+    </code></pre>
+</section>
+
+<section>
+    <h2>Чего нам хотелось?</h2>
+    <ul>
+        <li>интеграции со Scala и Akka</li>
+        <li>хорошего разделения слоёв HTTP и логики приложения</li>
+        <li>меньше boilerplate: OPTIONS, 404, 500, Auth</li>
+        <li>безопасности типов</li>
+        <li>удобства в работе с другими частями стека (управление пулами потоков,
+            конфигурирование, логирование, мониторинг, трассировка)</li>
+    </ul>
+</section>
+
+<section>
+    <h2>Spray</h2>
+    <ul>
+        <li>написан на Scala</li>
+        <li>асинхронный, неблокирующий</li>
+        <li>actor-friendly</li>
+        <li>стиль API: протоколы и сообщения</li>
+        <li>быстрый, легковесный</li>
+        <li>надёжный, тестируемый</li>
+        <li>фокусируется на интеграционных слоях HTTP, нежели на веб-приложениях</li>
+        <li>сервер и клиент</li>
+    </ul>
+</section>
+
+<section>
+    <h2>HTTP-модель</h2>
+    <ul>
+        <li>основывается на кейс-классах</li>
+        <li>предоставляет <em>удобные</em> абстракции практически для всего</li>
+        <li>immutable, практически не содержит логики</li>
+        <li>константы для типов медиа, статус-кодов, кодировок, директив кеширования, заголовков и т.д.</li>
+        <li>легко расширяется</li>
+    </ul>
+</section>
+
+<section>
+    <h2>HTTP-модель: код</h2>
+<pre style="width: 75%"><code data-trim>
+case class HttpRequest(
+  method: HttpMethod = HttpMethods.GET,
+  uri: Uri = Uri./,
+  headers: List[HttpHeader] = Nil,
+  entity: HttpEntity = HttpEntity.Empty,
+  protocol: HttpProtocol = HttpProtocols.`HTTP/1.1`
+) extends HttpMessage
+</code></pre>
+</section>
+
+<section>
+    <h2>HTTP-модель: код</h2>
+<pre style="width: 75%"><code data-trim>
+case class HttpResponse(
+  status: StatusCode = StatusCodes.OK,
+  entity: HttpEntity = HttpEntity.Empty,
+  headers: List[HttpHeader] = Nil,
+  protocol: HttpProtocol = HttpProtocols.`HTTP/1.1`
+) extends HttpMessage
+</code></pre>
+</section>
+
+<section>
+    <h2>HTTP-модель: код</h2>
+<pre style="width: 70%"><code data-trim>
+case class Uri(
+  scheme: String,
+  authority: Authority,
+  path: Path,
+  query: Query,
+  fragment: Option[String]
+)
+</code></pre>
+</section>
+
+<section>
+    <h2>HTTP-модель: код</h2>
+<pre style="width: 100%"><code data-trim>
+case class `Accept-Charset`(charsetRanges: Seq[HttpCharsetRange])
+  extends HttpHeader
+
+case class `Accept-Encoding`(encodings: Seq[HttpEncodingRange])
+  extends HttpHeader
+
+case class `Set-Cookie`(cookie: HttpCookie)
+  extends HttpHeader
+
+case class RawHeader(name: String, value: String)
+  extends HttpHeader
+</code></pre>
+</section>
+
+<section>
+    <h2>Слои</h2>
+    <img width="50%" src="io-stack.svg" alt="stack">
+</section>
+
+<section>
+    <h2>spray-can</h2>
+    <ul>
+        <li>максимальная пропускная способность при заданном времени отклика (50-100K запросов / сек на одной ноде)</li>
+        <li>отличная работа при большом количесте подключений </li>
+        <li>HTTP pipelining</li>
+        <li>streaming</li>
+        <li>SSL/TLS</li>
+    </ul>
+</section>
+
+<section>
+    <h2>spray-can: код</h2>
+<pre style="width: 90%"><code data-trim>
+class PingPongService extends Actor {
+  def receive = {
+    case _: Http.Connected ⇒
+      sender ! Http.Register(self)
+
+    case HttpRequest(GET, Uri.Path("/"), _, _, _) ⇒
+      sender ! HttpResponse(entity = "PONG")
+  }
+}
+</code></pre>
+</section>
+
+<section>
+    <h2>spray-routing</h2>
+    <ul>
+        <li>внутренний DSL для определения интерфейса сервиса</li>
+        <li>гибкий и типобезопасный (благодаря <a href="https://github.com/milessabin/shapeless">shapeless)</a></li>
+        <li>не только роутинг, но и определение поведения</li>
+        <li>построен из легковесных директив, которые отлично комбинируются</li>
+    </ul>
+</section>
+
+
+<section>
+    <h2>API-слой</h2>
+    <img class="fragment" style="width:80%" src="api0.svg" alt="application">
+    <img class="fragment" style="position: absolute; width:80%; margin-left: -80%" src="api1.svg" alt="API layer">
+    <img class="fragment" style="position: absolute; width:80%; margin-left: -80%" src="api2.svg" alt="API layer">
+    <img class="fragment" style="position: absolute; width:80%; margin-left: -80%" src="api3.svg" alt="API layer">
+    <img class="fragment" style="position: absolute; width:80%; margin-left: -80%" src="api4.svg" alt="API layer">
+    <img class="fragment" style="position: absolute; width:80%; margin-left: -80%" src="api5.svg" alt="API layer">
+    <img class="fragment" style="position: absolute; width:80%; margin-left: -80%" src="api6.svg" alt="API layer">
+</section>
+
+
+<section>
+    <h2>API-слой: что в него попадает?</h2>
+    <ul>
+        <li>роутинг (метод, путь, параметры запроса)</li>
+        <li>(де)сериализация</li>
+        <li>кодирование / декодирование, сжатие</li>
+        <li>аутентификация, авторизация</li>
+        <li>кеширование и отдача статического контента</li>
+        <li>REST-овая обработка ошибок</li>
+    </ul>
+</section>
+
+<section>
+    <h2>API слой: код</h2>
+<pre style="width: 70%"><code data-trim>
+class MyServiceActor extends HttpServiceActor {
+    path("order" / HexIntNumber) { id ⇒
+      get {
+        complete {
+          "Received GET request for order " + id
+        }
+      } ~
+      put {
+        complete {
+          "Received PUT request for order " + id
+        }
+      }
+    }
+  }
+}
+</code></pre>
+</section>
+
+<section>
+    <h2>Предопределённые директивы</h2>
+    <p style="font-size: 60%">alwaysCache, anyParam, anyParams, authenticate, authorize, autoChunk, cache, cachingProhibited, cancelAllRejections, cancelRejection, clientIP, complete, compressResponse, compressResponseIfRequested, cookie, decodeRequest, decompressRequest, delete, deleteCookie, detach, dynamic, dynamicIf, encodeResponse, entity, extract, failWith, formField, formFields, get, getFromBrowseableDirectories, getFromBrowseableDirectory, getFromDirectory, getFromFile, getFromResource, getFromResourceDirectory, handleExceptions, handleRejections, handleWith, head, headerValue, headerValueByName, headerValuePF, hextract, host, hostName, hprovide, jsonpWithParameter, listDirectoryContents, logRequest, logRequestResponse, logResponse, mapHttpResponse, mapHttpResponseEntity, mapHttpResponseHeaders, mapHttpResponsePart, mapInnerRoute, mapRejections, mapRequest, mapRequestContext, mapRouteResponse, mapRouteResponsePF, method, noop, onComplete, onFailure, onSuccess, optionalCookie, optionalHeaderValue, optionalHeaderValueByName, optionalHeaderValuePF, options, overrideMethodWithParameter, parameter, parameterMap, parameterMultiMap, parameters, parameterSeq, pass, patch, path, pathPrefix, pathPrefixTest, pathSuffix, pathSuffixTest, post, produce, provide, put, rawPath, rawPathPrefix, rawPathPrefixTest, redirect, reject, rejectEmptyResponse, requestEncodedWith, requestEntityEmpty, requestEntityPresent, respondWithHeader, respondWithHeaders, respondWithLastModifiedHeader, respondWithMediaType, respondWithSingletonHeader, respondWithSingletonHeaders, respondWithStatus, responseEncodingAccepted, rewriteUnmatchedPath, routeRouteResponse, scheme, schemeName, setCookie, unmatchedPath, validate</p>
+</section>
+
+<section>
+    <h2>Реальный пример</h2>
+<pre style="font-size: 40%"><code data-trim>
+    pathPrefix("api") {
+      jsonpWithParameter("callback") {
+        path("top-articles") {
+          get {
+            parameter("max".as[Int]) { max ⇒
+              validate(max >= 0, "query parameter 'max' must be >= 0") {
+                complete {
+                  (topArticlesService ? max).mapTo[Seq[Article]]
+                }
+              }
+            }
+          }
+        } ~
+        tokenAuthenticate { user ⇒
+          path("ranking") {
+            get {
+              countAndTime(user, "ranking") {
+                parameters("fixed" ? 0, "mobile" ? 0, "sms" ? 0, "mms" ? 0,
+                           "data" ? 0).as(RankingDescriptor) { descr ⇒
+                  complete {
+                    (rankingService ? Ranking(descr)).mapTo[RankingResult]
+                  }
+                }
+              }
+            }
+          } ~
+</code></pre>
+</section>
+
+<section>
+    <h2>...</h2>
+<pre style="font-size: 40%"><code data-trim>
+          path("account" / IntNumber) { accountId ⇒
+            get { ... } ~ put { ... } ~ delete { ... }
+          }
+        }
+      } ~
+      pathPrefix("v1") {
+        proxyToDjango
+      }
+    } ~
+    pathPrefix("doc") {
+      respondWithHeader(`Cache-Control`(`max-age`(3600))) {
+        transformResponse(_.withContentTransformed(markdown2Html)) {
+          getFromResourceDirectory("doc/root",
+                                   pathRewriter = appendFileExt)
+        }
+      }
+    } ~
+  } ~
+  cacheIfEnabled {
+    encodeResponse(Gzip) {
+      getFromResourceDirectory("public")
+    }
+  }
+</code></pre>
+</section>
+
+<section>
+    <h2>Best Practices</h2>
+    <ul>
+        <li>следить за структурой роутов, выносить зависящую от приложения логику в кастомные директивы</li>
+        <li>не смешивать слой API с логикой приложения</li>
+        <li>использовать инфраструктуру (де)сериализации</li>
+        <li>выбрать одну из схем обработки ошибок и использовать только её</li>
+        <li>не надеяться, что низкая производительность приложения обусловлена spray, а не вашим кодом</li>
+    </ul>
+</section>
+
+<section>
+    <h2>Кратко о</h2>
+    <ul>
+        <li>streaming для запросов и ответов</li>
+        <li><a href="http://spray.io/documentation/1.2-RC2/spray-testkit/">тестирование</a></li>
+        <li>клиентское API</li>
+        <li>поддержка JSON, XML</li>
+        <li><a href="http://www.reactive-streams.org/">Reactive Streams</a></li>
+        <li>интеграция в Akka, Java API</li>
+        <li>websockets, socket.io</li>
+    </ul>
+</section>
+
+<section>
+    <h2>Спасибо!</h2>
+</section>
+
+<section>
+    <h2>Вопросы</h2>
+</section>
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/2.6.2/lib/js/head.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/2.6.2/js/reveal.min.js"></script>
+
+<script>
+
+    // Full list of configuration options available here:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        theme: Reveal.getQueryHash().theme || 'spray-intro', // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'fade', // default/cube/page/concave/zoom/linear/fade/none
+
+        transitionSpeed: 'fast',
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+            { src: 'https://cdnjs.cloudflare.com/ajax/libs/classlist/2014.01.31/classList.min.js', condition: function() { return !document.body.classList; } },
+            { src: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.0/highlight.min.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+        ]
+    });
+
+</script>
+
+</body>
+</html>

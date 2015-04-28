@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>C* -> Riak</title>
+
+    <meta name="description" content="CQRS на практике">
+    <meta name="author" content="Lev Khomich">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/2.6.2/css/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.0/styles/zenburn.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/2.6.2/css/print/pdf.css" type="text/css" media="print">
+    <link rel="stylesheet" href="cqrs.css" id="theme">
+
+    <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+<div class="reveal">
+<div class="slides">
+
+<section>
+    <h2>CQRS на практике</h2>
+</section>
+
+<section style="font-size: 100%;">
+<pre style="column-count: 2; -webkit-column-count: 2;">
+"story": {
+  "title": "Вдохновение",
+  "lang": "ru",
+  "public": true,
+  "id": "07d06e9418416000",
+  "coverId": "07d06e8b52416000",
+  "updateTime": "2015-02-08T12:13:54.892Z",
+  "stats": {
+    "followers": 5,
+    "moments": 8,
+    "comments": 0
+  },
+  "context": {
+    "requestableForCollab": false,
+    "invited": false,
+    "collaborated": false,
+    "followed": false
+  },
+  "owner": {
+    "id": "07cd7c8762016000",
+    "name": "User Name",
+    "avatarId": "07d06e0952016000",
+    "stats": {
+      "stories": 2,
+      "followers": 5,
+      "moments": 17
+    },
+    "context": {
+      "following": false,
+      "followed": false
+    }
+  }
+},
+"collaborators": [...]
+</code>
+</section>
+
+<section fullscreen-img="cqrs.png" fullscreen-size="contain">
+</section>
+
+<section>
+    <h2>Спасибо!</h2>
+</section>
+
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/2.6.2/lib/js/head.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/2.6.2/js/reveal.min.js"></script>
+
+<script>
+
+    // Full list of configuration options available here:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+        controls: true,
+        progress: false,
+        history: true,
+        center: true,
+
+        theme: Reveal.getQueryHash().theme || 'cqrs', // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'fade', // default/cube/page/concave/zoom/linear/fade/none
+
+        transitionSpeed: 'fast',
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+            { src: 'https://cdnjs.cloudflare.com/ajax/libs/classlist/2014.01.31/classList.min.js', condition: function() { return !document.body.classList; } },
+            { src: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.0/highlight.min.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+            { src: 'fullscreen-img.js' }
+        ]
+    });
+
+</script>
+
+</body>
+</html>
