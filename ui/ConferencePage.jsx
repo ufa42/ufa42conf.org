@@ -6,6 +6,7 @@ var ConferencePage = React.createClass({
 	propTypes: {
 	},
 
+
 	render: function render() {
 		return (
 			<p></p>

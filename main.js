@@ -13,7 +13,6 @@ var serve = require("./lib/serve");
 var argv = require("yargs").argv;
 
 
-
 // allow to require react UI components
 require("node-jsx").install({
 	extension: ".jsx"
@@ -36,6 +35,7 @@ function build(component, url, item) {
 		text: html
 	});
 }
+
 
 
 site.users.forEach(function(u) {
@@ -66,6 +66,9 @@ virtual.importText(files, function() {
 	});
 
 });
+
+
+
 
 
 

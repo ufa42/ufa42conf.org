@@ -8,10 +8,10 @@ var HomePage = React.createClass({
 
 	render: function render() {
 		return (
-			<p></p>
+			<p>HO-ho   </p>
+
 		);
 	}
 });
-
 
 module.exports = HomePage;
