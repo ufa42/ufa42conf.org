@@ -8,7 +8,7 @@ var spec = {};
 var site = Site.create(db, spec);
 var render = require("./lib/render");
 var urls = require("./lib/urls");
-
+var virtual = require("./lib/virtual");
 
 // allow to require react UI components
 require("node-jsx").install({
@@ -27,10 +27,9 @@ function build(component, url, item) {
 		site: site,
 		item: item
 	});
-	var name = urls.getStaticFileName(url);
 	files.push({
-		name: name,
-		html: html
+		path: urls.getStaticFileName(url),
+		text: html
 	});
 }
 
@@ -45,3 +44,20 @@ site.conferences.forEach(function(conf) {
 
 
 build(HomePage, "/");
+
+
+
+virtual.importText(files, function() {
+	virtual.exportTo("./build", function() {
+		console.log("done");
+	});
+});
+
+
+
+
+
+
+
+
+// push to files for now
