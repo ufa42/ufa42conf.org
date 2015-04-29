@@ -1,0 +1,28 @@
+{
+  "name": "ufa42-site",
+  "version": "1.0.0",
+  "description": "Ufa42 web site",
+  "main": "build.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "node build.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ufa42/site.git"
+  },
+  "keywords": [
+    "Ufa42",
+    "Team"
+  ],
+  "author": "Ufa42 Team",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ufa42/site/issues"
+  },
+  "homepage": "https://github.com/ufa42/site",
+  "dependencies": {
+    "node-jsx": "^0.13.3",
+    "react": "^0.13.2"
+  }
+}
