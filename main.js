@@ -9,6 +9,10 @@ var site = Site.create(db, spec);
 var render = require("./lib/render");
 var urls = require("./lib/urls");
 var virtual = require("./lib/virtual");
+var serve = require("./lib/serve");
+var argv = require("yargs").argv;
+
+
 
 // allow to require react UI components
 require("node-jsx").install({
@@ -48,9 +52,19 @@ build(HomePage, "/");
 
 
 virtual.importText(files, function() {
-	virtual.exportTo("./build", function() {
-		console.log("done");
+
+
+	if (argv.save) {
+
+		virtual.exportTo("./build", function() {
+			console.log("saved");
+		});
+		return;
+	}
+	serve(virtual.fs).listen(8080, function() {
+		console.log("serving at http://localhost:8080");
 	});
+
 });
 
 
