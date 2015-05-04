@@ -6,6 +6,7 @@ var React = require("react");
 var ProfilePage = require("../ui/ProfilePage");
 var HomePage = require("../ui/HomePage");
 var ConferencePage = require("../ui/ConferencePage");
+var NotFoundPage = require("../ui/NotFoundPage");
 
 var files = [];
 
@@ -38,6 +39,7 @@ function renderContent(callback, site) {
 
 
 	renderPage(HomePage, "/", site);
+	renderPage(NotFoundPage, "/404.html", site);
 
 	virtual.importText(files, function() {
 		callback(virtual);
