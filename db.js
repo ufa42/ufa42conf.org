@@ -84,6 +84,7 @@ function conf(subj) {
 	if (!subj.beers) {
 		throw new Error("Beers must be held!");
 	}
+	subj.date = new Date(subj.date);
 	db.conferences.push(subj);
 }
 
