@@ -12,7 +12,7 @@ var TalkWidget = React.createClass({
 		return (
 			<div>
 				<img src={speaker.photo} width="100" height="100"/>
-				<p>{speaker.name}</p>
+				<a href={speaker.url}>{speaker.name}</a>
 				<p>{talk.title}</p>
 
 
