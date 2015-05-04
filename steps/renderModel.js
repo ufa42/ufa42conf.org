@@ -3,7 +3,7 @@ var virtual = require("../lib/virtual");
 
 var React = require("react");
 
-var ProfilePage = require("../ui/ProfilePage");
+var UserPage = require("../ui/UserPage");
 var HomePage = require("../ui/HomePage");
 var ConferencePage = require("../ui/ConferencePage");
 var NotFoundPage = require("../ui/NotFoundPage");
@@ -30,7 +30,7 @@ function renderPage(component, url, site, item) {
 function renderContent(callback, site) {
 
 	site.users.forEach(function(u) {
-		renderPage(ProfilePage, u.url, site, u);
+		renderPage(UserPage, u.url, site, u);
 	});
 
 	site.conferences.forEach(function(conf) {

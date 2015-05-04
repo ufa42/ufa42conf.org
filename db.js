@@ -55,17 +55,17 @@ function light(title, description, speaker, slides) {
 var rinat = user("abdullin", "abdullin", "Rinat Abdullin", "http://pbs.twimg.com/profile_images/3479036762/40c99d96aa9a4e57cfa7d54d1fb7d5b2.jpeg");
 var lev = user("levkhomich", "levkhomich", "Lev Khomich", "https://pbs.twimg.com/profile_images/459340276188708864/b3X4WwoB.png");
 var andrey = user("andrey_feokt", "andrey_feokt", "Andrey Feoktistov", "https://pbs.twimg.com/profile_images/478884565369360384/RevpRhzK.png");
-var rishat = user(94962222, "MrDarK_AngeL", "Rishat Shamsutdinov", "https://pbs.twimg.com/profile_images/507544081548206080/VJTYy-dc_400x400.jpeg");
-var grisha = user(1, undefined, "Grigory Leonenko", "https://pp.vk.me/c613522/v613522262/f295/WXWyojalNxo.jpg");
-var anjei = user(2, undefined, "Anjei Katkov");
-var ruslan = user(568182702, "izuick", "Ruslan Zuick", "https://pbs.twimg.com/profile_images/2181307609/IMG_10832.gif");
-var artem = user(3, "avpxalive", "Artem Popov", "https://pbs.twimg.com/profile_images/2470048812/fee2031e43a59d4d4fd583b9b34aa4dc.jpeg");
-var ksenia = user(39486845, "akitka", "Ksenia Makarova", "https://pbs.twimg.com/profile_images/476727113383297024/hJMp-Xxw.jpeg");
-var fil = user(4, "lozga", "Filipp Terekhov", "https://pbs.twimg.com/profile_images/378800000802397697/a63d690bdef1a580e14ca4ee48fdc878_400x400.png");
-var h3m0ptys1s = user(5, "h3m0ptys1s", "Oleg Gumerov", "https://pbs.twimg.com/profile_images/553508290261311489/EOUgvLll_400x400.jpeg");
-var sergey = user(6, "krasina15", "Sergey Tarasenko", "https://pbs.twimg.com/profile_images/915874529/f8376ccebd0220635cc7c8924804b120_400x400.png");
-var nikolay = user(8, "NikolayIakovlev", "Nikolay Iakovlev", "https://pbs.twimg.com/profile_images/2159744451/appleStore.jpg");
-var arsenij = user(7, undefined, "Arsenij Imamutdinov", "http://s018.radikal.ru/i511/1504/b6/fb5100a0446a.jpg");
+var rishat = user("MrDarK_AngeL", "MrDarK_AngeL", "Rishat Shamsutdinov", "https://pbs.twimg.com/profile_images/507544081548206080/VJTYy-dc_400x400.jpeg");
+var grisha = user("grisha", undefined, "Grigory Leonenko", "https://pp.vk.me/c613522/v613522262/f295/WXWyojalNxo.jpg");
+var anjei = user("anjei", undefined, "Anjei Katkov");
+var ruslan = user("izuick", "izuick", "Ruslan Zuick", "https://pbs.twimg.com/profile_images/2181307609/IMG_10832.gif");
+var artem = user("avpxalive", "avpxalive", "Artem Popov", "https://pbs.twimg.com/profile_images/2470048812/fee2031e43a59d4d4fd583b9b34aa4dc.jpeg");
+var ksenia = user("akitka", "akitka", "Ksenia Makarova", "https://pbs.twimg.com/profile_images/476727113383297024/hJMp-Xxw.jpeg");
+var fil = user("lozga", "lozga", "Filipp Terekhov", "https://pbs.twimg.com/profile_images/378800000802397697/a63d690bdef1a580e14ca4ee48fdc878_400x400.png");
+var h3m0ptys1s = user("h3m0ptys1s", "h3m0ptys1s", "Oleg Gumerov", "https://pbs.twimg.com/profile_images/553508290261311489/EOUgvLll_400x400.jpeg");
+var sergey = user("krasina15", "krasina15", "Sergey Tarasenko", "https://pbs.twimg.com/profile_images/915874529/f8376ccebd0220635cc7c8924804b120_400x400.png");
+var nikolay = user("NikolayIakovlev", "NikolayIakovlev", "Nikolay Iakovlev", "https://pbs.twimg.com/profile_images/2159744451/appleStore.jpg");
+var arsenij = user("arsenij", undefined, "Arsenij Imamutdinov", "http://s018.radikal.ru/i511/1504/b6/fb5100a0446a.jpg");
 
 
 
