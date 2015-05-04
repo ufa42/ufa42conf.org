@@ -12,6 +12,11 @@ node run dev
 
 Then, open your browser at [http://localhost:8080](http://localhost:8080). Script will watch the changes and rebuild site as necessary.
 
+# Where to find stuff?
+
+* Site structure is described in `./db.js`.
+* Conference materials are located in `./conf/YYYY-MM-DD/` folder.
+* UI components are located in `./ui/` as static ReactJS components.
 
 
 # Deployment
