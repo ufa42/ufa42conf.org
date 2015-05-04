@@ -3,10 +3,9 @@ var virtual = require("../lib/virtual");
 
 
 function assets(callback) {
-	var root = path.resolve("./assets");
 
 	virtual.copyFolder({
-		root: root,
+		root: path.resolve("./assets"),
 		location: "/assets",
 		sourceFs: require("fs"),
 		targetFs: virtual.fs

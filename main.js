@@ -31,7 +31,8 @@ RQ.parallel([
 		loadModelStep,
 		renderModelStep
 	]),
-	loadAssetsStep
+	loadAssetsStep,
+	require("./steps/loadTeamAssets")
 ])(finish);
 
 

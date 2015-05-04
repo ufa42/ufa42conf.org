@@ -1,23 +1,14 @@
 "use strict";
 
+
+var team = require("./team/team.js");
+
 var db = {
-	users: [],
 	places: [],
 	conferences: []
 };
 
 
-function user(id, twitter, name, photo) {
-	var subj = {
-		id: id,
-		twitter: twitter,
-		name: name,
-		photo: photo
-	};
-
-	db.users.push(subj);
-	return subj;
-}
 
 function place(title, lat, lon, address, description) {
 	var subj = {
@@ -32,6 +23,9 @@ function place(title, lat, lon, address, description) {
 
 
 function talk(title, description, speaker, slides) {
+	if (speaker === undefined) {
+		throw new Error("undefined speaker for " + title);
+	}
 	return {
 		duration: 30,
 		description: description,
@@ -42,6 +36,10 @@ function talk(title, description, speaker, slides) {
 
 }
 function light(title, description, speaker, slides) {
+
+	if (speaker === undefined) {
+		throw new Error("undefined speaker for " + title);
+	}
 	return {
 		duration: 5,
 		description: description,
@@ -51,21 +49,6 @@ function light(title, description, speaker, slides) {
 	};
 }
 
-
-var rinat = user("abdullin", "abdullin", "Rinat Abdullin", "http://pbs.twimg.com/profile_images/3479036762/40c99d96aa9a4e57cfa7d54d1fb7d5b2.jpeg");
-var lev = user("levkhomich", "levkhomich", "Lev Khomich", "https://pbs.twimg.com/profile_images/459340276188708864/b3X4WwoB.png");
-var andrey = user("andrey_feokt", "andrey_feokt", "Andrey Feoktistov", "https://pbs.twimg.com/profile_images/478884565369360384/RevpRhzK.png");
-var rishat = user("MrDarK_AngeL", "MrDarK_AngeL", "Rishat Shamsutdinov", "https://pbs.twimg.com/profile_images/507544081548206080/VJTYy-dc_400x400.jpeg");
-var grisha = user("grisha", undefined, "Grigory Leonenko", "https://pp.vk.me/c613522/v613522262/f295/WXWyojalNxo.jpg");
-var anjei = user("anjei", undefined, "Anjei Katkov");
-var ruslan = user("izuick", "izuick", "Ruslan Zuick", "https://pbs.twimg.com/profile_images/2181307609/IMG_10832.gif");
-var artem = user("avpxalive", "avpxalive", "Artem Popov", "https://pbs.twimg.com/profile_images/2470048812/fee2031e43a59d4d4fd583b9b34aa4dc.jpeg");
-var ksenia = user("akitka", "akitka", "Ksenia Makarova", "https://pbs.twimg.com/profile_images/476727113383297024/hJMp-Xxw.jpeg");
-var fil = user("lozga", "lozga", "Filipp Terekhov", "https://pbs.twimg.com/profile_images/378800000802397697/a63d690bdef1a580e14ca4ee48fdc878_400x400.png");
-var h3m0ptys1s = user("h3m0ptys1s", "h3m0ptys1s", "Oleg Gumerov", "https://pbs.twimg.com/profile_images/553508290261311489/EOUgvLll_400x400.jpeg");
-var sergey = user("krasina15", "krasina15", "Sergey Tarasenko", "https://pbs.twimg.com/profile_images/915874529/f8376ccebd0220635cc7c8924804b120_400x400.png");
-var nikolay = user("NikolayIakovlev", "NikolayIakovlev", "Nikolay Iakovlev", "https://pbs.twimg.com/profile_images/2159744451/appleStore.jpg");
-var arsenij = user("arsenij", undefined, "Arsenij Imamutdinov", "http://s018.radikal.ru/i511/1504/b6/fb5100a0446a.jpg");
 
 
 
@@ -94,15 +77,15 @@ conf({
 	place: synergy,
 	beers: duslyk,
 	talks: [
-		talk("Альфа версия сайта знакомств за 6 месяцев - работа над ошибками", "", rinat),
-		talk("Почему мы используем Scala?", "", andrey),
-		talk("HTTP слой со Spray и Akka", "", lev, "assets/talks/spray/spray-intro.html"),
+		talk("Альфа версия сайта знакомств за 6 месяцев - работа над ошибками", "", team.rinat),
+		talk("Почему мы используем Scala?", "", team.andrey),
+		talk("HTTP слой со Spray и Akka", "", team.lev, "assets/talks/spray/spray-intro.html"),
 
-		light("Emacs крут", "", rinat),
-		light("Objective-C Runtime – вскрытие без наркоза", "", rishat),
-		light("Как быстро написать приложение на angular.js? Не писать на angular.js", "", grisha),
-		light("Нужно ли реализовывать жизненный цикл для данных?", "", anjei),
-		light("Особенности интернационализации SPA (single page applications)", "", ruslan)
+		light("Emacs крут", "", team.rinat),
+		light("Objective-C Runtime – вскрытие без наркоза", "", team.rishat),
+		light("Как быстро написать приложение на angular.js? Не писать на angular.js", "", team.grisha),
+		light("Нужно ли реализовывать жизненный цикл для данных?", "", team.anjei),
+		light("Особенности интернационализации SPA (single page applications)", "", team.ruslan)
 	]
 });
 
@@ -112,13 +95,13 @@ conf({
 	place: synergy,
 	beers: duslyk,
 	talks: [
-		talk("Отладка распределенных систем", "", lev, "assets/talks/dds/dds.html"),
-		talk("5 Event-driven лайфхаков для вашего кода", "", rinat),
+		talk("Отладка распределенных систем", "", team.lev, "assets/talks/dds/dds.html"),
+		talk("5 Event-driven лайфхаков для вашего кода", "", team.rinat),
 
-		light("Мобильное приложение для управления презентацией за 30 минут", "", rinat),
-		light("Vim - в чем фишка", "", artem),
-		light("iOS: не используйте Storyboard", "", rishat),
-		light("Jira, тяжелая артиллерия энтерпрайза в стартапе", "", ksenia)
+		light("Мобильное приложение для управления презентацией за 30 минут", "", team.rinat),
+		light("Vim - в чем фишка", "", team.artem),
+		light("iOS: не используйте Storyboard", "", team.rishat),
+		light("Jira, тяжелая артиллерия энтерпрайза в стартапе", "", team.ksenia)
 	]
 });
 
@@ -128,15 +111,15 @@ conf({
 	beers: gosti,
 	date: "2015-02-25",
 	talks: [
-		talk("Cвет в конце тоннеля - ReactJS", "", rinat),
-		talk("Переход с c* на riak", "", lev, "assets/talks/migration/migration.html"),
-		talk("Objective-C Runtime: немного теории и практическое применение", "", rishat, "assets/talks/swizzling.pdf"),
+		talk("Cвет в конце тоннеля - ReactJS", "", team.rinat),
+		talk("Переход с c* на riak", "", team.lev, "assets/talks/migration/migration.html"),
+		talk("Objective-C Runtime: немного теории и практическое применение", "", team.rishat, "assets/talks/swizzling.pdf"),
 
-		light("Чем хорош Sikuli (кроме названия)", "", fil, "assets/talks/Sikuli.odp"),
-		light("Из чего складывается user experience", "", h3m0ptys1s, "assets/talks/UX.ppt"),
-		light("\"Hello World\" на микросхеме", "", rinat),
-		light("Переход на cqrs и контекстное кэширование", "", lev, "assets/talks/cqrs/cqrs.html"),
-		light("Доставить за 60 миллисекунд", "", sergey, "assets/talks/CDN.pdf")
+		light("Чем хорош Sikuli (кроме названия)", "", team.fil, "assets/talks/Sikuli.odp"),
+		light("Из чего складывается user experience", "", team.oleg, "assets/talks/UX.ppt"),
+		light("\"Hello World\" на микросхеме", "", team.rinat),
+		light("Переход на cqrs и контекстное кэширование", "", team.lev, "assets/talks/cqrs/cqrs.html"),
+		light("Доставить за 60 миллисекунд", "", team.sergey, "assets/talks/CDN.pdf")
 	]
 });
 
@@ -145,16 +128,16 @@ conf({
 	beers: morris,
 	date: "2015-04-27",
 	talks: [
-		talk("React Native глазами не iOS разработчика", "", rinat),
-		talk("React Native глазами iOS разработчика", "", rishat),
-		talk("Разработка Android-приложений на Scala", "", anjei),
-		talk("Аутсорсинг разработки ПО", "", h3m0ptys1s),
-		talk("TopCoder: риск - дело благородное", "", nikolay),
-		talk("Apache Spark: как перестать беспокоиться и начать жить", "", lev),
+		talk("React Native глазами не iOS разработчика", "", team.rinat),
+		talk("React Native глазами iOS разработчика", "", team.rishat),
+		talk("Разработка Android-приложений на Scala", "", team.anjei),
+		talk("Аутсорсинг разработки ПО", "", team.oleg),
+		talk("TopCoder: риск - дело благородное", "", team.nikolay),
+		talk("Apache Spark: как перестать беспокоиться и начать жить", "", team.lev),
 
-		light("Телеметрия в .NET", "", rinat),
-		light("“Секционирование” БД, как не надо делать", "", arsenij),
-		light("Немного о средствах профилирования производительности в Chrome", "", ruslan)
+		light("Телеметрия в .NET", "", team.rinat),
+		light("“Секционирование” БД, как не надо делать", "", team.arsenij),
+		light("Немного о средствах профилирования производительности в Chrome", "", team.ruslan)
 	]
 
 }
