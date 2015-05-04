@@ -18,18 +18,37 @@ var ProfilePage = React.createClass({
 
 
 		var achievments = talks.map(function(t){
-			return (<div>
-	<strong>{t.title}</strong> - {t.date}
-			</div>);
+			return (<li>
+	{t.title}
+			</li>);
 
 		});
 		return (
 			<Layout>
+
 				<h1>{user.name}</h1>
+				<div className="row">
+					<div className="large-4 columns">
 
-				<img src={user.photo} width="100" height="100"/>
+						<img src={user.photo} width="100" height="100"/>
 
-				<div>{achievments} </div>
+					</div>
+
+					<div className="large-8 columns">
+						<p>About the user</p>
+
+					</div>
+
+				</div>
+				<div className="row">
+					<hr />
+					<h4>Talks</h4>
+
+				<ul>{achievments} </ul>
+
+				</div>
+
+
 
 			</Layout>
 		);

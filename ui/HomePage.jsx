@@ -14,8 +14,12 @@ var HomePage = React.createClass({
 		return (
 			<FlatLayout>
 
+				<h1>Ufa 42 Conference</h1>
+
+
+
+
 			<div>
-				<h1>Ho-ho</h1>
 				<ConferenceSummary site={this.props.site}
 								   item={conf}
 								   />
