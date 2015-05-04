@@ -2,6 +2,7 @@
 
 var React = require("react");
 var ConferenceSummary = require("./ConferenceSummary");
+var AboutConferenceWidget = require("./AboutConferenceWidget");
 var FlatLayout = require("./FlatLayout");
 
 var HomePage = React.createClass({
@@ -24,6 +25,7 @@ var HomePage = React.createClass({
 								   item={conf}
 								   />
 			</div>
+			<AboutConferenceWidget />
 
 
 			</FlatLayout>

@@ -7,6 +7,8 @@ var UserPage = require("../ui/UserPage");
 var HomePage = require("../ui/HomePage");
 var ConferencePage = require("../ui/ConferencePage");
 var NotFoundPage = require("../ui/NotFoundPage");
+var TeamPage = require("../ui/TeamPage");
+
 
 var files = [];
 
@@ -40,6 +42,8 @@ function renderContent(callback, site) {
 
 	renderPage(HomePage, "/", site);
 	renderPage(NotFoundPage, "/404.html", site);
+	renderPage(TeamPage, "/team", site);
+
 
 	virtual.importText(files, function() {
 		callback(virtual);
