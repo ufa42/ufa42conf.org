@@ -17,15 +17,23 @@ var HomePage = React.createClass({
 
 				<h1>Ufa 42 Conference</h1>
 
+				<div className="row">
+					<div className="large-8 large-offset-2 columns">
+
+						<ConferenceSummary site={this.props.site}
+										   item={conf}
+										   />
+						<hr />
+
+						<AboutConferenceWidget />
+					</div>
+
+
+				</div>
 
 
 
-			<div>
-				<ConferenceSummary site={this.props.site}
-								   item={conf}
-								   />
-			</div>
-			<AboutConferenceWidget />
+
 
 
 			</FlatLayout>

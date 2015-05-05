@@ -10,23 +10,20 @@ function user(spec) {
 	}
 
 
-	var member = {
-		id: spec.id,
-		twitter: spec.twitter,
-		name: spec.name,
-		photo: spec.photo,
-		talks: []
-	};
 
-	member.url = "/team/" + spec.id + "/";
-	team[member.id] = member;
+	spec.talks = [];
+
+	spec.url = "/team/" + spec.id + "/";
+	team[spec.id] = spec;
 }
 
 user({
 	id: "rinat",
 	name: "Rinat Abdullin",
 	twitter: "abdullin",
-	photo: "/team/rinat.jpeg"
+	photo: "/team/rinat.jpeg",
+	github: "abdullin",
+	blog: "http://abdullin.com"
 });
 
 user({

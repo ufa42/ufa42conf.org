@@ -1,6 +1,7 @@
 /** @jsx React.DOM */
 
 var React = require("react");
+var Avatar = require("./Avatar");
 var ConferenceSummary = React.createClass({
 	propTypes: {
 	},
@@ -9,22 +10,17 @@ var ConferenceSummary = React.createClass({
 	renderTalk: function(talk) {
 		var speaker = talk.speaker;
 		return (
-			<div className="columns large-12">
-				<div className="row">
-					<div className="columns large-3">
 
-						<img src={speaker.photo} width="100" height="100"/>
-					</div>
-					<div className="columns large-9">
+			<div className="row" style={{paddingTop:10}}>
+				<div className="large-2 columns small-3">
 
-						<a href={speaker.url}>{speaker.name}</a>
-						<p>{talk.title}</p>
-					</div>
+					<Avatar user={speaker} size="70"/>
 				</div>
+				<div className="large-10 columns small-9">
 
-			<hr />
-
-
+					<a href={speaker.url}>{speaker.name}</a>
+					<p>{talk.title}</p>
+				</div>
 			</div>
 		);
 	},
@@ -36,13 +32,13 @@ var ConferenceSummary = React.createClass({
 
 		var list = conf.talks.map(this.renderTalk);
 		return (
-			<div className="row">
+			<article>
 
 				{list}
 
 
 
-			</div>
+			</article>
 		);
 	}
 });

@@ -26,24 +26,30 @@ function finish() {
 }
 
 
-RQ.parallel([
-	RQ.sequence([
-		loadModelStep,
-		renderModelStep
+
+
+var site;
+function memoize(callback, s) {
+	site = s;
+	callback(site);
+}
+function recover(callback) {
+	callback(site);
+}
+
+
+RQ.sequence([
+	require("./steps/loadModel"),
+	memoize,
+	RQ.parallel([
+		require("./steps/loadAssets"),
+		require("./steps/loadTeamAssets")
 	]),
-	loadAssetsStep,
-	require("./steps/loadTeamAssets")
+	recover,
+	RQ.parallel([
+		require("./steps/renderModel")
+	])
 ])(finish);
-
-
-
-
-
-
-
-
-
-
 
 
 

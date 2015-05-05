@@ -2,6 +2,8 @@
 
 var React = require("react");
 var FlatLayout = require("./FlatLayout");
+var Avatar = require("./Avatar");
+
 var TeamPage = React.createClass({
 	propTypes: {
 	},
@@ -10,8 +12,9 @@ var TeamPage = React.createClass({
 		return (
 			<div className="large-6 columns">
 				<div className="row">
+					<hr />
 					<div className="columns large-2 small-3">
-						<img src={user.photo} height="100" width="100"/>
+						<Avatar user={user} size="70" />
 					</div>
 					<div className="columns large-10 small-7">
 

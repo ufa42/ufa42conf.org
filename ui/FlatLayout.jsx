@@ -39,10 +39,10 @@ var FlatLayout = React.createClass({
 										</div>
 										<div className="large-6 columns">
 											<ul className="inline-list right">
-												<li><a href="#">Link 1</a></li>
-												<li><a href="#">Link 2</a></li>
-												<li><a href="#">Link 3</a></li>
-												<li><a href="#">Link 4</a></li>
+												<li><a href="/">Home</a></li>
+												<li><a href="/team">Team</a></li>
+												<li><a href="/talks">Talks</a></li>
+												<li><a href="https://twitter.com/ufa42conf">Twitter</a></li>
 											</ul>
 										</div>
 									</div>
