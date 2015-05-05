@@ -2,7 +2,8 @@
 
 In order to view this site locally:
 
-1. Install node.
+1. Install node (version 12+)
+2. Install [ImageMagick](http://www.imagemagick.org/)
 2. Execute:
 
 ```
