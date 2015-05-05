@@ -3,7 +3,7 @@
 In order to view this site locally:
 
 1. Install node (version 12+)
-2. Install [ImageMagick](http://www.imagemagick.org/)
+2. Install [ImageMagick](http://www.imagemagick.org/) (on OSX: `brew install imagemagick`)
 2. Execute:
 
 ```
