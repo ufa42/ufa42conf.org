@@ -2,14 +2,20 @@
 
 var React = require("react");
 var Avatar = require("./Avatar");
+var DurationLabel = require("./DurationLabel");
+
+
 var ConferenceSummary = React.createClass({
 	propTypes: {
 	},
 
 
+
 	renderTalk: function(talk) {
 		var speaker = talk.speaker;
+
 		return (
+
 
 			<div className="row" style={{paddingTop:10}}>
 				<div className="large-2 columns small-3">
@@ -19,7 +25,8 @@ var ConferenceSummary = React.createClass({
 				<div className="large-10 columns small-9">
 
 					<a href={speaker.url}>{speaker.name}</a>
-					<p>{talk.title}</p>
+					<p> {talk.title} <DurationLabel duration={talk.duration}/> </p>
+
 				</div>
 			</div>
 		);

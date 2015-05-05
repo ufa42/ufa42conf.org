@@ -4,7 +4,7 @@ var React = require("react");
 
 var Layout = require("./FlatLayout");
 var Avatar = require("./Avatar");
-
+var DurationLabel = require("./DurationLabel");
 var ProfilePage = React.createClass({
 	propTypes: {
 	},
@@ -56,7 +56,7 @@ var ProfilePage = React.createClass({
 
 		var achievments = talks.map(function(t){
 			return (<li>
-	{t.title}
+					<strong>Talk: </strong> {t.title} <DurationLabel duration={t.duration} />
 			</li>);
 
 		});
@@ -80,7 +80,7 @@ var ProfilePage = React.createClass({
 				</div>
 				<div className="row">
 					<hr />
-					<h4>Talks</h4>
+					<h4>Activity</h4>
 
 				<ul>{achievments} </ul>
 
