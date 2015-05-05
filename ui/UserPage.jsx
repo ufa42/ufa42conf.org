@@ -4,7 +4,7 @@ var React = require("react");
 
 var Layout = require("./FlatLayout");
 var Avatar = require("./Avatar");
-var DurationLabel = require("./DurationLabel");
+var TalkLink = require("./TalkLink");
 var ProfilePage = React.createClass({
 	propTypes: {
 	},
@@ -56,7 +56,7 @@ var ProfilePage = React.createClass({
 
 		var achievments = talks.map(function(t){
 			return (<li>
-					<strong>Talk: </strong> {t.title} <DurationLabel duration={t.duration} />
+					<strong>Talk: </strong> <TalkLink talk={t} />
 			</li>);
 
 		});

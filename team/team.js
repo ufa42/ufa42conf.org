@@ -13,7 +13,8 @@ function user(spec) {
 
 	spec.talks = [];
 
-	spec.url = "/team/" + spec.id + "/";
+
+	spec.url = "/team/" + (spec.twitter || spec.id) + "/";
 	team[spec.id] = spec;
 }
 
@@ -31,6 +32,7 @@ user({
 	name: "Lev Khomich",
 	twitter: "levkhomich",
 	photo: "/team/lev.png",
+	github: "levkhomich"
 });
 
 user({

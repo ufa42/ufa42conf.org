@@ -22,7 +22,7 @@ function place(title, lat, lon, address, description) {
 }
 
 
-function talk(title, description, speaker, slides) {
+function talk(title, description, speaker, slides, video) {
 	if (speaker === undefined) {
 		throw new Error("undefined speaker for " + title);
 	}
@@ -31,7 +31,8 @@ function talk(title, description, speaker, slides) {
 		description: description,
 		title: title,
 		speaker: speaker,
-		slides: slides
+		slides: slides,
+		video: video
 	};
 
 }
@@ -79,7 +80,7 @@ conf({
 	talks: [
 		talk("Альфа версия сайта знакомств за 6 месяцев - работа над ошибками", "", team.rinat),
 		talk("Почему мы используем Scala?", "", team.andrey),
-		talk("HTTP слой со Spray и Akka", "", team.lev, "assets/talks/spray/spray-intro.html"),
+		talk("HTTP слой со Spray и Akka", "", team.lev, "assets/talks/spray/spray-intro.html", "https://www.youtube.com/watch?v=JiR4sD8098w"),
 
 		light("Emacs крут", "", team.rinat),
 		light("Objective-C Runtime – вскрытие без наркоза", "", team.rishat),
@@ -95,7 +96,7 @@ conf({
 	place: synergy,
 	beers: duslyk,
 	talks: [
-		talk("Отладка распределенных систем", "", team.lev, "assets/talks/dds/dds.html"),
+		talk("Отладка распределенных систем", "", team.lev, "/assets/talks/dds/dds.html", "https://www.youtube.com/watch?v=zzlCvjkG6RE"),
 		talk("5 Event-driven лайфхаков для вашего кода", "", team.rinat),
 
 		light("Мобильное приложение для управления презентацией за 30 минут", "", team.rinat),
@@ -112,13 +113,13 @@ conf({
 	date: "2015-02-25",
 	talks: [
 		talk("Cвет в конце тоннеля - ReactJS", "", team.rinat),
-		talk("Переход с c* на riak", "", team.lev, "assets/talks/migration/migration.html"),
+		talk("Переход с c* на riak", "", team.lev, "/assets/talks/migration/migration.html"),
 		talk("Objective-C Runtime: немного теории и практическое применение", "", team.rishat, "assets/talks/swizzling.pdf"),
 
 		light("Чем хорош Sikuli (кроме названия)", "", team.fil, "assets/talks/Sikuli.odp"),
 		light("Из чего складывается user experience", "", team.oleg, "assets/talks/UX.ppt"),
 		light("\"Hello World\" на микросхеме", "", team.rinat),
-		light("Переход на cqrs и контекстное кэширование", "", team.lev, "assets/talks/cqrs/cqrs.html"),
+		light("Переход на cqrs и контекстное кэширование", "", team.lev, "assets/talks/cqrs/cqrs.html", "https://www.youtube.com/watch?v=cf2VzXOnSpc"),
 		light("Доставить за 60 миллисекунд", "", team.sergey, "assets/talks/CDN.pdf")
 	]
 });

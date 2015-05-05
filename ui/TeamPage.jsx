@@ -9,6 +9,11 @@ var TeamPage = React.createClass({
 	},
 
 	renderUser: function(user) {
+
+		var labels = [];
+		if (user.talks.length > 0) {
+			labels.push(<span>Talks: {user.talks.length}</span>);
+		}
 		return (
 			<div className="large-6 columns">
 				<div className="row">
@@ -18,7 +23,9 @@ var TeamPage = React.createClass({
 					</div>
 					<div className="columns large-10 small-7">
 
-					<a href={user.url}>{user.name}</a>
+						<a href={user.url}>{user.name}</a>
+						<br />{labels}
+
 					</div>
 				</div>
 			</div>
