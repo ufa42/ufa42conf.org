@@ -8,10 +8,15 @@ var TeamPage = React.createClass({
 
 	renderUser: function(user) {
 		return (
-			<div className="large-2 small-3 columns">
-				<img src={user.photo} height="100" width="100"/>
-				<div className="panel">
+			<div className="large-6 columns">
+				<div className="row">
+					<div className="columns large-2 small-3">
+						<img src={user.photo} height="100" width="100"/>
+					</div>
+					<div className="columns large-10 small-7">
+
 					<a href={user.url}>{user.name}</a>
+					</div>
 				</div>
 			</div>
 
