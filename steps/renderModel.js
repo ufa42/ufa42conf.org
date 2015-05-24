@@ -8,7 +8,7 @@ var HomePage = require("../ui/HomePage");
 var ConferencePage = require("../ui/ConferencePage");
 var NotFoundPage = require("../ui/NotFoundPage");
 var TeamPage = require("../ui/TeamPage");
-var TalkPage = require("../ui/TalkPage");
+var TalksPage = require("../ui/TalksPage");
 
 var files = [];
 
@@ -38,15 +38,16 @@ function renderContent(callback, site) {
 	site.conferences.forEach(function(conf) {
 		renderPage(ConferencePage, conf.url, site, conf);
 
-		conf.talks.forEach(function(talk) {
-			renderPage(TalkPage, talk.url, site, talk);
-		});
+		// conf.talks.forEach(function(talk) {
+		//  renderPage(TalkPage, talk.url, site, talk);
+		// });
 	});
 
 
 	renderPage(HomePage, "/", site);
 	renderPage(NotFoundPage, "/404.html", site);
 	renderPage(TeamPage, "/team", site);
+	renderPage(TalksPage, "/talks", site);
 
 
 	virtual.importText(files, function() {
