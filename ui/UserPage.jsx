@@ -5,7 +5,7 @@ var React = require("react");
 var Layout = require("./FlatLayout");
 var Avatar = require("./Avatar");
 var TalkLink = require("./TalkLink");
-var ProfilePage = React.createClass({
+var UserPage = React.createClass({
 	propTypes: {
 	},
 
@@ -17,7 +17,7 @@ var ProfilePage = React.createClass({
 			var url = "https://twitter.com/" + user.twitter;
 			var name = "twitter.com/" + user.twitter;
 			items.push(
-				<li>
+				<li key="twitter">
 					<strong>Twitter: </strong>
 					<a href={url}>{name}</a>
 				</li>
@@ -27,7 +27,7 @@ var ProfilePage = React.createClass({
 			var url = "https://github.com/" + user.github;
 			var name = "github.com/" + user.github;
 			items.push(
-				<li>
+				<li key="github">
 					<strong>Github: </strong>
 
 					<a href={url}>{name}</a>
@@ -36,7 +36,7 @@ var ProfilePage = React.createClass({
 		}
 		if (user.blog) {
 			items.push(
-				<li>
+				<li key="blog">
 					<strong>Blog: </strong>
 					<a href={user.blog}>{user.blog}</a>
 				</li>
@@ -55,16 +55,17 @@ var ProfilePage = React.createClass({
 
 
 		var achievments = talks.map(function(t){
-			return (<li>
+			return (
+				<li key={t.url}>
 					<strong>Talk: </strong> <TalkLink talk={t} />
-			</li>);
+				</li>
+			);
 
 		});
 
 		var userInfo = this.renderUserInfo(user);
 		return (
-			<Layout>
-
+			<Layout title={user.name}>
 				<h1>{user.name}</h1>
 				<div className="row">
 					<div className="large-4 columns">
@@ -81,17 +82,12 @@ var ProfilePage = React.createClass({
 				<div className="row">
 					<hr />
 					<h4>Activity</h4>
-
-				<ul>{achievments} </ul>
-
+					<ul>{achievments} </ul>
 				</div>
-
-
-
 			</Layout>
 		);
 	}
 });
 
 
-module.exports = ProfilePage;
+module.exports = UserPage;

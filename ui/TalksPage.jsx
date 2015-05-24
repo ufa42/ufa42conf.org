@@ -11,27 +11,20 @@ var TalkPage = React.createClass({
 	render: function render() {
 		var site = this.props.site;
 
-		var items = site.conferences.map(function(c) { return (
-<ConferenceSummary site={site} item={c} />)});
-
+		var items = site.conferences.map(function(c) {
+			return (
+				<ConferenceSummary site={site} item={c} key={c.date} />
+			);
+		});
 
 		return (
-
-
-			<FlatLayout>
+			<FlatLayout title="Talks">
 				<h1>Talks</h1>
-
 				<div className="row">
 					<div className="columns large-10 large-1-offset">
 					{items}
-</div>
-
-
-
+					</div>
 				</div>
-
-
-
 			</FlatLayout>
 		);
 	}

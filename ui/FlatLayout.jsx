@@ -6,6 +6,7 @@ var HtmlHead = require("./HtmlHead");
 
 var FlatLayout = React.createClass({
 	propTypes: {
+
 	},
 
 	render: function render() {
@@ -25,10 +26,7 @@ var FlatLayout = React.createClass({
 								</ul>
 							</div>
 
-
 							{this.props.children}
-
-
 
 							<footer className="row">
 								<hr />
@@ -48,7 +46,6 @@ var FlatLayout = React.createClass({
 									</div>
 								</div>
 							</footer>
-
 						</div>
 					</div>
 				</body>

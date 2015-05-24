@@ -8,8 +8,6 @@ var DurationLabel = React.createClass({
 
 	render: function render() {
 		var duration = this.props.duration;
-
-
 		if (duration === undefined) {
 			throw new Error("Talk duration must be specified");
 		}

@@ -34,11 +34,6 @@ var Avatar = React.createClass({
 					 height="200"
 					 style={style} />
 		);
-
-
-
-
-
 	}
 });
 

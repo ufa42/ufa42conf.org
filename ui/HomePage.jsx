@@ -13,9 +13,9 @@ var HomePage = React.createClass({
 
 		var conf = this.props.site.conferences[3];
 		return (
-			<FlatLayout>
+			<FlatLayout title="Ufa42 Conference">
 
-				<h1>Ufa 42 Conference</h1>
+				<h1>Ufa42 Conference</h1>
 
 				<div className="row">
 					<div className="large-8 large-offset-2 columns">
@@ -24,21 +24,11 @@ var HomePage = React.createClass({
 										   item={conf}
 										   />
 						<hr />
-
 						<AboutConferenceWidget />
 					</div>
-
-
 				</div>
-
-
-
-
-
-
 			</FlatLayout>
 		);
-
 	}
 });
 

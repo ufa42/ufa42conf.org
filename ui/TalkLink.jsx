@@ -12,11 +12,11 @@ var TalkLink = React.createClass({
 		var talk = this.props.talk;
 		var labels = [];
 
-		labels.push(<DurationLabel duration={talk.duration} />);
+		labels.push(<DurationLabel duration={talk.duration} key="duration"/>);
 		if (talk.slides) {
 			labels.push(" - ");
 			labels.push(
-				<a href={talk.slides}>Slides</a>
+				<a href={talk.slides} key="slides">Slides</a>
 			);
 		}
 		if (talk.video) {
@@ -26,14 +26,12 @@ var TalkLink = React.createClass({
 				video = "https://www.youtube.com/watch?v=" + video;
 			}
 
-			labels.push(<a href={video}>Video</a>);
+			labels.push(<a href={video} key="video">Video</a>);
 		}
 		return (
 			<span>
 				{talk.title}
 				{" "}{labels}
-
-
 			</span>
 		);
 	}

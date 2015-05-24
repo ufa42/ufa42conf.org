@@ -12,20 +12,18 @@ var TeamPage = React.createClass({
 
 		var labels = [];
 		if (user.talks.length > 0) {
-			labels.push(<span>Talks: {user.talks.length}</span>);
+			labels.push(<span key="talks">Talks: {user.talks.length}</span>);
 		}
 		return (
-			<div className="large-6 columns">
+			<div className="large-6 columns" key={user.url}>
 				<div className="row">
 					<hr />
 					<div className="columns large-2 small-3">
 						<Avatar user={user} size="70" />
 					</div>
 					<div className="columns large-10 small-7">
-
 						<a href={user.url}>{user.name}</a>
 						<br />{labels}
-
 					</div>
 				</div>
 			</div>
@@ -49,17 +47,11 @@ var TeamPage = React.createClass({
 
 		var tiles = users.map(this.renderUser);
 		return (
-			<FlatLayout>
-
+			<FlatLayout title="Ufa42 Team">
 				<h1>Ufa42 Team</h1>
 				<div className="row">
-
-{tiles}
-
+					{tiles}
 				</div>
-
-
-
 			</FlatLayout>
 		);
 	}
