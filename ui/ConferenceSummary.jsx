@@ -3,7 +3,7 @@
 var React = require("react");
 var Avatar = require("./Avatar");
 var DurationLabel = require("./DurationLabel");
-
+var moment = require("moment");
 
 var ConferenceSummary = React.createClass({
 	propTypes: {
@@ -36,12 +36,15 @@ var ConferenceSummary = React.createClass({
 
 		var conf = this.props.item;
 		var site = this.props.site;
-
+		var title = moment(conf.date).format("dddd, MMMM Do YYYY");
 		var list = conf.talks.map(this.renderTalk);
 		return (
 			<article>
+				<h3>{title}</h3>
+				<div>
+					{list}
+				</div>
 
-				{list}
 
 
 
