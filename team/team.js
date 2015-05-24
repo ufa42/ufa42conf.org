@@ -28,6 +28,14 @@ user({
 });
 
 user({
+	id: "marat",
+	name: "Marat Kinyabulatov",
+	twitter: "eskeemo",
+	photo: "/team/marat.jpg",
+	blog: "https://spacekimo.wordpress.com"
+});
+
+user({
 	id: "lev",
 	name: "Lev Khomich",
 	twitter: "levkhomich",

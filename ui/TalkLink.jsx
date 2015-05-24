@@ -23,8 +23,12 @@ var TalkLink = React.createClass({
 		}
 		if (talk.video) {
 			labels.push(" - ");
+			var video = talk.video;
+			if (video.indexOf("http") === -1) {
+				video = "https://www.youtube.com/watch?v=" + video;
+			}
 
-			labels.push(<a href={talk.video}>Video</a>);
+			labels.push(<a href={video}>Video</a>);
 		}
 		return (
 			<span>

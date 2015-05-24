@@ -36,7 +36,7 @@ function talk(title, description, speaker, slides, video) {
 	};
 
 }
-function light(title, description, speaker, slides) {
+function light(title, description, speaker, slides, video) {
 
 	if (speaker === undefined) {
 		throw new Error("undefined speaker for " + title);
@@ -46,7 +46,9 @@ function light(title, description, speaker, slides) {
 		description: description,
 		title: title,
 		speaker: speaker,
-		slides: slides
+		slides: slides,
+		video: video
+
 	};
 }
 
@@ -82,9 +84,9 @@ conf({
 	place: synergy,
 	beers: duslyk,
 	talks: [
-		talk("Альфа версия сайта знакомств за 6 месяцев - работа над ошибками", "", team.rinat, "rinat-hpc.pdf"),
-		talk("Почему мы используем Scala?", "", team.andrey),
-		talk("HTTP слой со Spray и Akka", "", team.lev, "lev-spray/spray-intro.html", "https://www.youtube.com/watch?v=JiR4sD8098w"),
+		talk("Альфа версия сайта знакомств за 6 месяцев - работа над ошибками", "", team.rinat, "rinat-hpc.pdf", "L6hXbj--Ojc"),
+		talk("Почему мы используем Scala?", "", team.andrey, undefined, "J6V2lY0Zcyw"),
+		talk("HTTP слой со Spray и Akka", "", team.lev, "lev-spray/spray-intro.html", "JiR4sD8098w"),
 
 		light("Emacs крут", "", team.rinat),
 		light("Objective-C Runtime – вскрытие без наркоза", "", team.rishat),
@@ -100,13 +102,15 @@ conf({
 	place: synergy,
 	beers: duslyk,
 	talks: [
-		talk("Отладка распределенных систем", "", team.lev, "lev-dds/dds.html", "https://www.youtube.com/watch?v=zzlCvjkG6RE"),
-		talk("5 Event-driven лайфхаков для вашего кода", "", team.rinat, "rinat-edd-lifehacks.pdf"),
+		talk("Отладка распределенных систем", "", team.lev, "lev-dds/dds.html", "zzlCvjkG6RE"),
+		talk("5 Event-driven лайфхаков для вашего кода", "", team.rinat, "rinat-edd-lifehacks.pdf", "VKRgjxqCSqY"),
 
 		light("Мобильное приложение для управления презентацией за 30 минут", "", team.rinat, "rinat-presenter.pdf"),
-		light("Vim - в чем фишка", "", team.artem),
-		light("iOS: не используйте Storyboard", "", team.rishat),
-		light("Jira, тяжелая артиллерия энтерпрайза в стартапе", "", team.ksenia)
+		light("Vim - в чем фишка", "", team.artem, "dARZ5bosMr4"),
+		light("iOS: не используйте Storyboard", "", team.rishat, "e-uGkkdCaO8"),
+		light("DevOps: слабоумие и отвага", "", team.sergey, "ubD8k_GFCpI"),
+		light("Jira, тяжелая артиллерия энтерпрайза в стартапе", "", team.ksenia, undefined, "aDjh0FJOKIQ"),
+		light("Как обсуждать технические моменты с нетехническими коллегами", "", team.marat, undefined, "TkKBc-t38M0")
 	]
 });
 
@@ -116,15 +120,15 @@ conf({
 	beers: gosti,
 	date: "2015-02-25",
 	talks: [
-		talk("Cвет в конце тоннеля - ReactJS", "", team.rinat, "rinat-react-js.pdf"),
+		talk("Cвет в конце тоннеля - ReactJS", "", team.rinat, "rinat-react-js.pdf", "TQb6kBUrLZs"),
 		talk("Переход с c* на riak", "", team.lev, "lev-migration/migration.html"),
-		talk("Objective-C Runtime: немного теории и практическое применение", "", team.rishat, "rishat-swizzling.pdf"),
+		talk("Objective-C Runtime: немного теории и практическое применение", "", team.rishat, "rishat-swizzling.pdf", "KmhOYSoxdYA"),
 
-		light("Чем хорош Sikuli (кроме названия)", "", team.fil, "fil-sikuli.odp"),
-		light("Из чего складывается user experience", "", team.oleg, "oleg-ux.ppt"),
+		light("Чем хорош Sikuli (кроме названия)", "", team.fil, "fil-sikuli.odp", "8_qWxXuae_Y"),
+		light("Из чего складывается user experience", "", team.oleg, "oleg-ux.ppt", "nSIMdlDGq1Q"),
 		light("\"Hello World\" на микросхеме", "", team.rinat),
-		light("Переход на cqrs и контекстное кэширование", "", team.lev, "lev-cqrs/cqrs.html", "https://www.youtube.com/watch?v=cf2VzXOnSpc"),
-		light("Доставить за 60 миллисекунд", "", team.sergey, "sergey-cdn.pdf")
+		light("Переход на cqrs и контекстное кэширование", "", team.lev, "lev-cqrs/cqrs.html", "cf2VzXOnSpc"),
+		light("Доставить за 60 миллисекунд", "", team.sergey, "sergey-cdn.pdf", "EfAEHsjpx8o")
 	]
 });
 
