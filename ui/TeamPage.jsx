@@ -36,6 +36,15 @@ var TeamPage = React.createClass({
 
 	render: function render() {
 		var users = this.props.site.users;
+		users.sort(function(a, b){
+			if (a.name < b.name) {
+				return -1;
+			}
+			if (a.name > b.name) {
+				return 1;
+			}
+			return 0;
+		});
 
 
 		var tiles = users.map(this.renderUser);

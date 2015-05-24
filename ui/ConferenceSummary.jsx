@@ -4,7 +4,7 @@ var React = require("react");
 var Avatar = require("./Avatar");
 var DurationLabel = require("./DurationLabel");
 var moment = require("moment");
-
+var TalkLink = require("./TalkLink");
 var ConferenceSummary = React.createClass({
 	propTypes: {
 	},
@@ -25,7 +25,10 @@ var ConferenceSummary = React.createClass({
 				<div className="large-10 columns small-9">
 
 					<a href={speaker.url}>{speaker.name}</a>
-					<p> {talk.title} <DurationLabel duration={talk.duration}/> </p>
+					<p>
+						<TalkLink talk={talk} />
+					</p>
+
 
 				</div>
 			</div>

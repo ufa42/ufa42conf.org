@@ -16,20 +16,20 @@ var TalkLink = React.createClass({
 
 		labels.push(<DurationLabel duration={talk.duration} />);
 		if (talk.slides) {
-			labels.push(", ");
+			labels.push(" - ");
 			labels.push(
 				<a href={talk.slides}>Slides</a>
 			);
 		}
 		if (talk.video) {
-			labels.push(", ");
+			labels.push(" - ");
 
 			labels.push(<a href={talk.video}>Video</a>);
 		}
 		return (
 			<span>
 				{talk.title}
-				{" "}({labels})
+				{" "}{labels}
 
 
 			</span>
