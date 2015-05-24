@@ -2,7 +2,7 @@ var Site = require("../lib/Site");
 var db = require("../db");
 
 var team = require("../team/team.js");
-
+var moment = require("moment");
 var spec = {};
 
 
@@ -15,10 +15,14 @@ module.exports = function(callback) {
 
 
 	site.conferences.forEach(function(c) {
-		c.url = "/conf/" + c.date + "/";
-		c.talks.forEach(function(talk) {
+		c.url = "/conf/" + moment(c.date).format("YYYY-MM-DD") + "/";
+		c.talks.forEach(function(talk, i) {
 			talk.speaker.talks.push(talk);
 			talk.date = c.date;
+			talk.url = c.url + i + "/";
+			if (talk.slides) {
+				talk.slides = c.url + talk.slides;
+			}
 		});
 	});
 
@@ -29,11 +33,5 @@ module.exports = function(callback) {
 		site.users.push(team[id]);
 	});
 
-
-
-
-
 	callback(site);
-
-
 };

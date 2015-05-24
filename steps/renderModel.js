@@ -8,7 +8,7 @@ var HomePage = require("../ui/HomePage");
 var ConferencePage = require("../ui/ConferencePage");
 var NotFoundPage = require("../ui/NotFoundPage");
 var TeamPage = require("../ui/TeamPage");
-
+var TalkPage = require("../ui/TalkPage");
 
 var files = [];
 
@@ -33,13 +33,14 @@ function renderContent(callback, site) {
 
 	site.users.forEach(function(u) {
 		renderPage(UserPage, u.url, site, u);
-		var ext = require("path").extname(u.photo);
-
-		console.log("wget -O " + u.id.toLowerCase() + ext + " " + u.photo)
 	});
 
 	site.conferences.forEach(function(conf) {
 		renderPage(ConferencePage, conf.url, site, conf);
+
+		conf.talks.forEach(function(talk) {
+			renderPage(TalkPage, talk.url, site, talk);
+		});
 	});
 
 

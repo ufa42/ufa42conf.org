@@ -14,21 +14,22 @@ var TalkLink = React.createClass({
 
 		var labels = [];
 
+		labels.push(<DurationLabel duration={talk.duration} />);
 		if (talk.slides) {
-			labels.push(" ");
-			labels.push(<span className="label round success">Slides</span>);
+			labels.push(", ");
+			labels.push(
+				<a href={talk.slides}>Slides</a>
+			);
 		}
 		if (talk.video) {
-			labels.push(" ");
+			labels.push(", ");
 
-			labels.push(<span className="label round info">Video</span>);
+			labels.push(<a href={talk.video}>Video</a>);
 		}
-		labels.push(" ");
-		labels.push(<DurationLabel duration={talk.duration} />);
 		return (
 			<span>
-				<a href="#">{talk.title}</a>
-				{labels}
+				{talk.title}
+				{" "}({labels})
 
 
 			</span>

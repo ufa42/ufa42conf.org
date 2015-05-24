@@ -82,9 +82,9 @@ conf({
 	place: synergy,
 	beers: duslyk,
 	talks: [
-		talk("Альфа версия сайта знакомств за 6 месяцев - работа над ошибками", "", team.rinat),
+		talk("Альфа версия сайта знакомств за 6 месяцев - работа над ошибками", "", team.rinat, "rinat-hpc.pdf"),
 		talk("Почему мы используем Scala?", "", team.andrey),
-		talk("HTTP слой со Spray и Akka", "", team.lev, "assets/talks/spray/spray-intro.html", "https://www.youtube.com/watch?v=JiR4sD8098w"),
+		talk("HTTP слой со Spray и Akka", "", team.lev, "lev-spray/spray-intro.html", "https://www.youtube.com/watch?v=JiR4sD8098w"),
 
 		light("Emacs крут", "", team.rinat),
 		light("Objective-C Runtime – вскрытие без наркоза", "", team.rishat),
@@ -100,10 +100,10 @@ conf({
 	place: synergy,
 	beers: duslyk,
 	talks: [
-		talk("Отладка распределенных систем", "", team.lev, "/assets/talks/dds/dds.html", "https://www.youtube.com/watch?v=zzlCvjkG6RE"),
-		talk("5 Event-driven лайфхаков для вашего кода", "", team.rinat),
+		talk("Отладка распределенных систем", "", team.lev, "lev-dds/dds.html", "https://www.youtube.com/watch?v=zzlCvjkG6RE"),
+		talk("5 Event-driven лайфхаков для вашего кода", "", team.rinat, "rinat-edd-lifehacks.pdf"),
 
-		light("Мобильное приложение для управления презентацией за 30 минут", "", team.rinat),
+		light("Мобильное приложение для управления презентацией за 30 минут", "", team.rinat, "rinat-presenter.pdf"),
 		light("Vim - в чем фишка", "", team.artem),
 		light("iOS: не используйте Storyboard", "", team.rishat),
 		light("Jira, тяжелая артиллерия энтерпрайза в стартапе", "", team.ksenia)
@@ -116,15 +116,15 @@ conf({
 	beers: gosti,
 	date: "2015-02-25",
 	talks: [
-		talk("Cвет в конце тоннеля - ReactJS", "", team.rinat),
-		talk("Переход с c* на riak", "", team.lev, "/assets/talks/migration/migration.html"),
-		talk("Objective-C Runtime: немного теории и практическое применение", "", team.rishat, "assets/talks/swizzling.pdf"),
+		talk("Cвет в конце тоннеля - ReactJS", "", team.rinat, "rinat-react-js.pdf"),
+		talk("Переход с c* на riak", "", team.lev, "lev-migration/migration.html"),
+		talk("Objective-C Runtime: немного теории и практическое применение", "", team.rishat, "rishat-swizzling.pdf"),
 
-		light("Чем хорош Sikuli (кроме названия)", "", team.fil, "assets/talks/Sikuli.odp"),
-		light("Из чего складывается user experience", "", team.oleg, "assets/talks/UX.ppt"),
+		light("Чем хорош Sikuli (кроме названия)", "", team.fil, "fil-sikuli.odp"),
+		light("Из чего складывается user experience", "", team.oleg, "oleg-ux.ppt"),
 		light("\"Hello World\" на микросхеме", "", team.rinat),
-		light("Переход на cqrs и контекстное кэширование", "", team.lev, "assets/talks/cqrs/cqrs.html", "https://www.youtube.com/watch?v=cf2VzXOnSpc"),
-		light("Доставить за 60 миллисекунд", "", team.sergey, "assets/talks/CDN.pdf")
+		light("Переход на cqrs и контекстное кэширование", "", team.lev, "lev-cqrs/cqrs.html", "https://www.youtube.com/watch?v=cf2VzXOnSpc"),
+		light("Доставить за 60 миллисекунд", "", team.sergey, "sergey-cdn.pdf")
 	]
 });
 
@@ -133,14 +133,14 @@ conf({
 	beers: morris,
 	date: "2015-04-27",
 	talks: [
-		talk("React Native глазами не iOS разработчика", "", team.rinat),
+		talk("React Native глазами не iOS разработчика", "", team.rinat, "rinat-react-native.pdf"),
 		talk("React Native глазами iOS разработчика", "", team.rishat),
 		talk("Разработка Android-приложений на Scala", "", team.anjei),
 		talk("Аутсорсинг разработки ПО", "", team.oleg),
 		talk("TopCoder: риск - дело благородное", "", team.nikolay),
 		talk("Apache Spark: как перестать беспокоиться и начать жить", "", team.lev),
 
-		light("Телеметрия в .NET", "", team.rinat),
+		light("Телеметрия в .NET", "", team.rinat, "rinat-telemetry.pdf"),
 		light("“Секционирование” БД, как не надо делать", "", team.arsenij),
 		light("Немного о средствах профилирования производительности в Chrome", "", team.ruslan)
 	]
