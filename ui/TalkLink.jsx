@@ -10,8 +10,6 @@ var TalkLink = React.createClass({
 
 	render: function render() {
 		var talk = this.props.talk;
-
-
 		var labels = [];
 
 		labels.push(<DurationLabel duration={talk.duration} />);
