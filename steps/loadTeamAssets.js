@@ -78,11 +78,13 @@ function loadTeamAssets(callback, site) {
 			return;
 		}
 
-		var parsed = path.parse(m.photo);
+		var ext = path.extname(m.photo);
+		var name = path.basename(m.photo, ext);
+
 
 		m.avatar = {
-			"140": "/team/" + parsed.name + "_140.jpg",
-			"400": "/team/" + parsed.name + "_400.jpg"
+			"140": "/team/" + name + "_140.jpg",
+			"400": "/team/" + name + "_400.jpg"
 		};
 		makeThumbnails(m.photo, m.avatar);
 	});
