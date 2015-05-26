@@ -21,8 +21,7 @@ var TalkPage = React.createClass({
 		return (
 			<tr key={talk.url}>
 				<td><a href={talk.speaker.url}>{talk.speaker.name}</a></td>
-				<td>{talk.title}</td>
-				<td>{talk.duration} min</td>
+				<td>{talk.title} <span className="right label round small">{talk.duration}</span></td>
 				{slides}
 				{video}
 			</tr>
