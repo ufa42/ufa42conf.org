@@ -39,6 +39,12 @@ var morris = place("Morris", 54.728811, 55.941556, "Уфа, ул. Гоголя 6
 
 function conf(subj) {
 	ensure(subj, ["place", "beers", "date"]);
+
+
+	if (subj.title === undefined) {
+		subj.title = subj.date;
+	}
+
 	subj.date = new Date(subj.date);
 
 	db.conferences.push(subj);
@@ -130,19 +136,19 @@ conf({
 			speaker: team.artem,
 			title: "Vim - в чем фишка",
 			duration: 5,
-			slides: "dARZ5bosMr4"
+			video: "dARZ5bosMr4"
 		}),
 		talk({
 			speaker: team.rishat,
 			title: "iOS: не используйте Storyboard",
 			duration: 5,
-			slides: "e-uGkkdCaO8"
+			video: "e-uGkkdCaO8"
 		}),
 		talk({
 			speaker: team.sergey,
 			title: "DevOps: слабоумие и отвага",
 			duration: 5,
-			slides: "ubD8k_GFCpI"
+			video: "ubD8k_GFCpI"
 		}),
 		talk({
 			speaker: team.ksenia,
