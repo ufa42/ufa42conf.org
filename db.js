@@ -138,15 +138,15 @@ conf({
 	date: "2015-04-27",
 	talks: [
 		talk("React Native глазами не iOS разработчика", "", team.rinat, "rinat-react-native.pdf", "tl2oI5oHgQw"),
-		talk("React Native глазами iOS разработчика", "", team.rishat),
-		talk("Разработка Android-приложений на Scala", "", team.anjei),
-		talk("Аутсорсинг разработки ПО", "", team.oleg, undefined, "CRp6ARy0nzY"),
-		talk("TopCoder: риск - дело благородное", "", team.nikolay, undefined, "zESzBfIg0wM"),
+		talk("React Native глазами iOS разработчика", "", team.rishat, "rishat-react-native.pdf"),
+		talk("Разработка Android-приложений на Scala", "", team.anjei, "anjei-scala.pdf"),
+		talk("Аутсорсинг разработки ПО", "", team.oleg, "oleg-outsourcing.pdf", "CRp6ARy0nzY"),
+		talk("TopCoder: риск - дело благородное", "", team.nikolay, "nikolay-topcoder.pdf", "zESzBfIg0wM"),
 		talk("Apache Spark: как перестать беспокоиться и начать жить", "", team.lev, undefined, "kpBvnhD-l4A"),
 
-		light("Телеметрия в .NET", "", team.rinat, "rinat-telemetry.pdf", undefined, "9PC1SaA-QjY"),
+		light("Телеметрия в .NET", "", team.rinat, "rinat-telemetry.pdf", "9PC1SaA-QjY"),
 		light("“Секционирование” БД, как не надо делать", "", team.arsenij, undefined, "KnRvn4zJLW0"),
-		light("Немного о средствах профилирования производительности в Chrome", "", team.ruslan, undefined, "VtNDVjfB7cE")
+		light("Немного о средствах профилирования производительности в Chrome", "", team.ruslan, "ruslan-chrome-profiling.pdf", "VtNDVjfB7cE")
 	]
 
 }
