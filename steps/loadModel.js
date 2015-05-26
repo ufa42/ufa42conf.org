@@ -6,7 +6,6 @@ var moment = require("moment");
 var spec = {};
 
 
-
 module.exports = function(callback) {
 
 	var site = new Site();
@@ -16,7 +15,9 @@ module.exports = function(callback) {
 
 	site.conferences.forEach(function(c) {
 		c.url = "/conf/" + moment(c.date).format("YYYY-MM-DD") + "/";
+
 		c.talks.forEach(function(talk, i) {
+
 			talk.speaker.talks.push(talk);
 			talk.date = c.date;
 			talk.url = c.url + i + "/";

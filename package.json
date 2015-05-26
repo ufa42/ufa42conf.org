@@ -5,8 +5,8 @@
   "main": "build.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rm -rf build && node main.js --save",
-    "dev": "nodemon -e js,jsx ./main.js --serve"
+    "build": "rm -rf build && node --harmony main.js --save",
+    "dev": "nodemon --harmony -e js,jsx ./main.js --serve"
   },
   "repository": {
     "type": "git",
