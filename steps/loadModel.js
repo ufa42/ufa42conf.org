@@ -21,6 +21,12 @@ module.exports = function(callback) {
 			talk.speaker.talks.push(talk);
 			talk.date = c.date;
 			talk.url = c.url + i + "/";
+
+
+			if (talk.video && talk.video.indexOf("http") === -1) {
+				talk.video = "https://www.youtube.com/watch?v=" + talk.video;
+			}
+
 			if (talk.slides) {
 				talk.slides = c.url + talk.slides;
 			}
