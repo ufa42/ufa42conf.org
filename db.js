@@ -265,6 +265,7 @@ conf({
 			speaker: team.lev,
 			title: "Apache Spark: как перестать беспокоиться и начать жить",
 			duration: 30,
+			slides: "lev-spark/spark.html",
 			video: "kpBvnhD-l4A"
 		}),
 		talk({

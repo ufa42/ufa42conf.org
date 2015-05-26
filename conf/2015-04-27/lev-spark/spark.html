@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>Spark</title>
+
+    <meta name="description" content="Apache Spark">
+    <meta name="author" content="Lev Khomich">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/2.6.2/css/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.0/styles/zenburn.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/2.6.2/css/print/pdf.css" type="text/css" media="print">
+    <link rel="stylesheet" href="spark.css" id="theme">
+
+    <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+<div class="reveal">
+<div class="slides">
+
+<section>
+    <h2>Apache Spark</h2>
+</section>
+
+<section>
+    <img height="100%" src="https://spark.apache.org/images/spark-stack.png" />
+</section>
+
+<section>
+    <h2>RDD</h2>
+    <ul>
+        <li>immutable</li>
+        <li>distributed</li>
+        <li>lazy</li>
+        <li>cacheable</li>
+    </ul>
+</section>
+
+<section>
+    <h2>Spark SQL</h2>
+    <ul>
+        <li>позволяет определить схему</li>
+        <li>упрощает загрузку данных (jdbc, json, csv, parquet, hive, etc)</li>
+        <li>позволяет выбирать данные используя SQL</li>
+    </ul>
+</section>
+
+<section>
+<pre style="width: 80%"><code data-trim>
+val input = hiveContext.jsonFile(path);
+input.registerTempTable("tweets");
+val topTweets = hiveContext.sql("""
+  SELECT text, retweetCount
+  FROM tweets
+  ORDER BY retweetCount
+""");
+</code></pre>
+</section>
+
+<section>
+    <h2>GraphX</h2>
+    <ul>
+        <li>определяет графы с помощью RDD</li>
+        <li>поддерживает направленные мультиграфы со свойствами на вершинах и рёбрах</li>
+        <li>предоставляет реализации широкоиспользуемых алгоритмов (page rank, triangle search, connected components)</li>
+        <li>упрощает загрузку данных</li>
+    </ul>
+</section>
+
+<section>
+<pre style="width: 80%"><code data-trim>
+val graph: Graph[(String, String), String]
+graph.vertices.filter { case (id, (name, pos)) => pos == "developer" }.count
+graph.edges.filter(e => e.srcId > e.dstId).count
+</code></pre>
+</section>
+
+<section>
+<pre style="width: 80%"><code data-trim>
+SELECT src.id, dst.id, src.attr, e.attr, dst.attr
+FROM edges AS e LEFT JOIN vertices AS src, vertices AS dst
+ON e.srcId = src.Id AND e.dstId = dst.Id
+</code></pre>
+</section>
+
+<section>
+    <h2>Spark Streaming</h2>
+    <ul>
+        <li>предназначен для soft real-time обработки потоковых данных</li>
+        <li>определяет абстракцию над временным промежутком с помощью RDD</li>
+        <li>поддерживает Kafka, Flume, HDFS, S3, Twitter  как источники данных</li>
+        <li>интегрируется с Akka, MLib, Spark SQL, GraphX</li>
+    </ul>
+</section>
+
+<section>
+    <h2>Практический пример (Akka -> Spark)</h2>
+    <ul>
+        <li>1500 -> 600 строк кода</li>
+        <li>минимум бойлерплейта</li>
+        <li>равная производительность</li>
+        <li>+ отказоустойчивость и горизонтальная масштабируемость</li>
+    </ul>
+</section>
+
+<section>
+    <h2>Спасибо!</h2>
+</section>
+
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/2.6.2/lib/js/head.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/2.6.2/js/reveal.min.js"></script>
+
+<script>
+
+    // Full list of configuration options available here:
+    // https://github.com/hakimel/reveal.js#configuration
+    Reveal.initialize({
+        controls: true,
+        progress: false,
+        history: true,
+        center: true,
+
+        theme: Reveal.getQueryHash().theme || 'spark', // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'fade', // default/cube/page/concave/zoom/linear/fade/none
+
+        transitionSpeed: 'fast',
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+            { src: 'https://cdnjs.cloudflare.com/ajax/libs/classlist/2014.01.31/classList.min.js', condition: function() { return !document.body.classList; } },
+            { src: 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.0/highlight.min.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+            { src: 'fullscreen-img.js' }
+        ]
+    });
+
+</script>
+
+</body>
+</html>
